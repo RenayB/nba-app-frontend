@@ -1,5 +1,6 @@
 # Step 1: Build the React app
-FROM node:18-alpine AS build
+#FROM node:18-alpine AS build
+FROM node:18 AS builder
 
 # Set working directory inside the container
 WORKDIR /app
@@ -20,7 +21,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy the build files from the previous stage to the Nginx container
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Expose the default Nginx port
 EXPOSE 80
